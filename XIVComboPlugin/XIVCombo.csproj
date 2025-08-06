@@ -1,4 +1,4 @@
-﻿<Project Sdk="Dalamud.NET.Sdk/12.0.2">
+﻿<Project Sdk="Dalamud.NET.Sdk/13.0.0">
   <PropertyGroup Label="Target">
     <PlatformTarget>x64</PlatformTarget>
     <TargetFramework>net9.0-windows</TargetFramework>
@@ -29,4 +29,7 @@
   <PropertyGroup>
     <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Update="DalamudPackager" Version="13.0.0" />
+  </ItemGroup>
 </Project>
