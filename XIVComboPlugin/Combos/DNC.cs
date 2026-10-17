@@ -144,6 +144,24 @@ internal class DancerFlourish : CustomCombo
     }
 }
 
+internal class DancerCascadeFountain : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerSingleTargetProcs;
+
+    protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID == DNC.Cascade && level >= DNC.Levels.ReverseCascade &&
+            (HasEffect(DNC.Buffs.FlourishingSymmetry) || HasEffect(DNC.Buffs.SilkenSymmetry)))
+            return DNC.ReverseCascade;
+
+        if (actionID == DNC.Fountain && level >= DNC.Levels.Fountainfall &&
+            (HasEffect(DNC.Buffs.FlourishingFlow) || HasEffect(DNC.Buffs.SilkenFlow)))
+            return DNC.Fountainfall;
+
+        return actionID;
+    }
+}
+
 internal class DancerWindmillBladeshower : CustomCombo
 {
     protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerAoeProcs;

@@ -132,6 +132,11 @@ public enum CustomComboPreset
     // ====================================================================================
     #region DANCER
 
+    [IconsCombo([DNC.Cascade, UTL.ArrowLeft, DNC.ReverseCascade, UTL.Blank, DNC.Fountain, UTL.ArrowLeft, DNC.Fountainfall])]
+    [SectionCombo("Single Target")]
+    [CustomComboInfo("ST to Procs", "Replace Cascade and Fountain with Reverse Cascade and Fountainfall respectively when available.", DNC.JobID)]
+    DancerSingleTargetProcs = 3814,
+
     [IconsCombo([DNC.Windmill, UTL.ArrowLeft, DNC.RisingWindmill, UTL.Blank, DNC.Bladeshower, UTL.ArrowLeft, DNC.Bloodshower])]
     [SectionCombo("Area of Effect")]
     [CustomComboInfo("AoE to Procs", "Replace Windmill and Bladeshower with Rising Windmill and Bloodshower respectively when available.", DNC.JobID)]
