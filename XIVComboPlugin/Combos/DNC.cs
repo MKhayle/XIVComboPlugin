@@ -144,29 +144,32 @@ internal class DancerFlourish : CustomCombo
     }
 }
 
-internal class DancerWindmillBladeshower : CustomCombo
+internal class DancerBladeshowerCombo : CustomCombo
 {
-    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerAoeProcs;
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerBladeshowerCombo;
 
     protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
     {
-        if (actionID == DNC.Windmill || actionID == DNC.Bladeshower ||
-            actionID == DNC.RisingWindmill || actionID == DNC.Bloodshower)
-        {
-            // While dancing the game turns these keys into dance steps; leave them alone.
-            if (GetJobGauge<DNCGauge>().IsDancing)
-                return actionID;
+        if (actionID != DNC.Bladeshower)
+            return actionID;
 
-            if (actionID == DNC.Windmill && level >= DNC.Levels.RisingWindmill &&
-                (HasEffect(DNC.Buffs.FlourishingSymmetry) || HasEffect(DNC.Buffs.SilkenSymmetry)))
-                return DNC.RisingWindmill;
+        // While dancing the game turns this key into a dance step; leave it alone.
+        if (GetJobGauge<DNCGauge>().IsDancing)
+            return actionID;
 
-            if (actionID == DNC.Bladeshower && level >= DNC.Levels.Bloodshower &&
-                (HasEffect(DNC.Buffs.FlourishingFlow) || HasEffect(DNC.Buffs.SilkenFlow)))
-                return DNC.Bloodshower;
-        }
+        // Procs win, Bloodshower over Rising Windmill when both are up.
+        if (level >= DNC.Levels.Bloodshower &&
+            (HasEffect(DNC.Buffs.FlourishingFlow) || HasEffect(DNC.Buffs.SilkenFlow)))
+            return DNC.Bloodshower;
 
-        return actionID;
+        if (level >= DNC.Levels.RisingWindmill &&
+            (HasEffect(DNC.Buffs.FlourishingSymmetry) || HasEffect(DNC.Buffs.SilkenSymmetry)))
+            return DNC.RisingWindmill;
+
+        if (comboTime > 0 && lastComboMove == DNC.Windmill && level >= DNC.Levels.Bladeshower)
+            return DNC.Bladeshower;
+
+        return DNC.Windmill;
     }
 }
 

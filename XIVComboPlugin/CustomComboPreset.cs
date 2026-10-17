@@ -137,10 +137,10 @@ public enum CustomComboPreset
     [CustomComboInfo("Fountain Combo", "Replace Fountain with the whole single target chain, in order of priority: Fountainfall, Reverse Cascade when their procs are up, otherwise Cascade into Fountain.", DNC.JobID)]
     DancerFountainCombo = 3817,
 
-    [IconsCombo([DNC.Windmill, UTL.ArrowLeft, DNC.RisingWindmill, UTL.Blank, DNC.Bladeshower, UTL.ArrowLeft, DNC.Bloodshower])]
+    [IconsCombo([DNC.Windmill, UTL.ArrowLeft, DNC.Bladeshower, UTL.Blank, DNC.RisingWindmill, UTL.ArrowLeft, DNC.Bloodshower])]
     [SectionCombo("Area of Effect")]
-    [CustomComboInfo("AoE to Procs", "Replace Windmill and Bladeshower with Rising Windmill and Bloodshower respectively when available.", DNC.JobID)]
-    DancerAoeProcs = 3812,
+    [CustomComboInfo("Bladeshower Combo", "Replace Bladeshower with the whole AoE chain, in order of priority: Bloodshower, Rising Windmill when their procs are up, otherwise Windmill into Bladeshower.", DNC.JobID)]
+    DancerBladeshowerCombo = 3818,
 
     [IconsCombo([DNC.FanDance1, DNC.FanDance2, UTL.ArrowLeft, DNC.FanDance3, UTL.Blank, DNC.Buffs.ThreefoldFanDance, UTL.Checkmark])]
     [SectionCombo("Fan features")]
