@@ -157,6 +157,16 @@ public enum CustomComboPreset
     [CustomComboInfo("Last Dance Feature", "Replace Standard Step by Last Dance if available.", DNC.JobID)]
     DancerLastDanceFeature = 3813,
 
+    [IconsCombo([DNC.StandardStep, UTL.ArrowLeft, DNC.Emboite, UTL.ArrowLeft, DNC.StandardFinish])]
+    [SectionCombo("Dances features")]
+    [CustomComboInfo("Auto Standard Step", "Replace Standard Step with the next required dance step, then with Standard Finish once the dance is done.", DNC.JobID)]
+    DancerAutoStandardStep = 3815,
+
+    [IconsCombo([DNC.TechnicalStep, UTL.ArrowLeft, DNC.Emboite, UTL.ArrowLeft, DNC.TechnicalFinish])]
+    [SectionCombo("Dances features")]
+    [CustomComboInfo("Auto Technical Step", "Replace Technical Step with the next required dance step, then with Technical Finish once the dance is done.", DNC.JobID)]
+    DancerAutoTechnicalStep = 3816,
+
     #endregion
     // ====================================================================================
     #region DARK KNIGHT
