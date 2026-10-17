@@ -153,6 +153,10 @@ internal class DancerWindmillBladeshower : CustomCombo
         if (actionID == DNC.Windmill || actionID == DNC.Bladeshower ||
             actionID == DNC.RisingWindmill || actionID == DNC.Bloodshower)
         {
+            // While dancing the game turns these keys into dance steps; leave them alone.
+            if (GetJobGauge<DNCGauge>().IsDancing)
+                return actionID;
+
             if (actionID == DNC.Windmill && level >= DNC.Levels.RisingWindmill &&
                 (HasEffect(DNC.Buffs.FlourishingSymmetry) || HasEffect(DNC.Buffs.SilkenSymmetry)))
                 return DNC.RisingWindmill;
@@ -174,12 +178,79 @@ internal class DancerLastDanceFeature : CustomCombo
     {
         if (actionID == DNC.StandardStep)
         {
-            if (level >= DNC.Levels.LastDance && HasEffect(DNC.Buffs.LastDanceReady))
-            {                
+            if (level >= DNC.Levels.LastDance && HasEffect(DNC.Buffs.LastDanceReady) &&
+                !GetJobGauge<DNCGauge>().IsDancing)
+            {
                 return DNC.LastDance;
             }
         }
 
         return actionID;
+    }
+}
+
+internal class DancerFountainCombo : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerFountainCombo;
+
+    protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID != DNC.Fountain)
+            return actionID;
+
+        // While dancing the game turns this key into a dance step; leave it alone.
+        if (GetJobGauge<DNCGauge>().IsDancing)
+            return actionID;
+
+        // Procs win, Fountainfall over Reverse Cascade when both are up.
+        if (level >= DNC.Levels.Fountainfall &&
+            (HasEffect(DNC.Buffs.FlourishingFlow) || HasEffect(DNC.Buffs.SilkenFlow)))
+            return DNC.Fountainfall;
+
+        if (level >= DNC.Levels.ReverseCascade &&
+            (HasEffect(DNC.Buffs.FlourishingSymmetry) || HasEffect(DNC.Buffs.SilkenSymmetry)))
+            return DNC.ReverseCascade;
+
+        if (comboTime > 0 && lastComboMove == DNC.Cascade && level >= DNC.Levels.Fountain)
+            return DNC.Fountain;
+
+        return DNC.Cascade;
+    }
+}
+
+internal class DancerAutoStandardStep : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerAutoStandardStep;
+
+    protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        // Only the Standard Step buff means an active standard dance; catches the 15s window
+        // after every step has been performed but before the finish.
+        if (actionID != DNC.StandardStep || !HasEffect(DNC.Buffs.StandardStep))
+            return actionID;
+
+        var gauge = GetJobGauge<DNCGauge>();
+        if (gauge.CompletedSteps < 2 && gauge.NextStep != 0)
+            return gauge.NextStep;
+
+        return DNC.StandardFinish;
+    }
+}
+
+internal class DancerAutoTechnicalStep : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerAutoTechnicalStep;
+
+    protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID != DNC.TechnicalStep || level < DNC.Levels.TechnicalStep ||
+            !HasEffect(DNC.Buffs.TechnicalStep))
+            return actionID;
+
+        var gauge = GetJobGauge<DNCGauge>();
+        if (gauge.CompletedSteps < 4 && gauge.NextStep != 0)
+            return gauge.NextStep;
+
+        return DNC.TechnicalFinish;
     }
 }

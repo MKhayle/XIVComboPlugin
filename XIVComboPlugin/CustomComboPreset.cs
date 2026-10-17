@@ -132,6 +132,11 @@ public enum CustomComboPreset
     // ====================================================================================
     #region DANCER
 
+    [IconsCombo([DNC.Cascade, UTL.ArrowLeft, DNC.Fountain, UTL.Blank, DNC.ReverseCascade, UTL.ArrowLeft, DNC.Fountainfall])]
+    [SectionCombo("Single Target")]
+    [CustomComboInfo("Fountain Combo", "Replace Fountain with the whole single target chain, in order of priority: Fountainfall, Reverse Cascade when their procs are up, otherwise Cascade into Fountain.", DNC.JobID)]
+    DancerFountainCombo = 3817,
+
     [IconsCombo([DNC.Windmill, UTL.ArrowLeft, DNC.RisingWindmill, UTL.Blank, DNC.Bladeshower, UTL.ArrowLeft, DNC.Bloodshower])]
     [SectionCombo("Area of Effect")]
     [CustomComboInfo("AoE to Procs", "Replace Windmill and Bladeshower with Rising Windmill and Bloodshower respectively when available.", DNC.JobID)]
@@ -151,6 +156,16 @@ public enum CustomComboPreset
     [SectionCombo("Dances features")]
     [CustomComboInfo("Last Dance Feature", "Replace Standard Step by Last Dance if available.", DNC.JobID)]
     DancerLastDanceFeature = 3813,
+
+    [IconsCombo([DNC.StandardStep, UTL.ArrowLeft, DNC.Emboite, UTL.ArrowLeft, DNC.StandardFinish])]
+    [SectionCombo("Dances features")]
+    [CustomComboInfo("Auto Standard Step", "Replace Standard Step with the next required dance step, then with Standard Finish once the dance is done.", DNC.JobID)]
+    DancerAutoStandardStep = 3815,
+
+    [IconsCombo([DNC.TechnicalStep, UTL.ArrowLeft, DNC.Emboite, UTL.ArrowLeft, DNC.TechnicalFinish])]
+    [SectionCombo("Dances features")]
+    [CustomComboInfo("Auto Technical Step", "Replace Technical Step with the next required dance step, then with Technical Finish once the dance is done.", DNC.JobID)]
+    DancerAutoTechnicalStep = 3816,
 
     #endregion
     // ====================================================================================
