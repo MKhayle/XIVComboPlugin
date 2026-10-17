@@ -233,10 +233,12 @@ internal class DancerAutoStandardStep : CustomCombo
             return actionID;
 
         var gauge = GetJobGauge<DNCGauge>();
-        if (gauge.CompletedSteps < 2 && gauge.NextStep != 0)
-            return gauge.NextStep;
+        var nextStep = gauge.NextStep;
+        if (gauge.CompletedSteps < 2 && nextStep >= DNC.Emboite && nextStep <= DNC.Pirouette)
+            return nextStep;
 
-        return DNC.StandardFinish;
+        // Dance is done: leave the key alone so the game swaps in the finish itself.
+        return actionID;
     }
 }
 
@@ -251,9 +253,11 @@ internal class DancerAutoTechnicalStep : CustomCombo
             return actionID;
 
         var gauge = GetJobGauge<DNCGauge>();
-        if (gauge.CompletedSteps < 4 && gauge.NextStep != 0)
-            return gauge.NextStep;
+        var nextStep = gauge.NextStep;
+        if (gauge.CompletedSteps < 4 && nextStep >= DNC.Emboite && nextStep <= DNC.Pirouette)
+            return nextStep;
 
-        return DNC.TechnicalFinish;
+        // Dance is done: leave the key alone so the game swaps in the finish itself.
+        return actionID;
     }
 }
