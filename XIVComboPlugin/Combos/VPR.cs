@@ -1,5 +1,4 @@
 using System.Collections;
-using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
 namespace XIVCombo.Combos;
@@ -180,17 +179,37 @@ internal class ViperMaws : CustomCombo
 
 internal class ViperCoils : CustomCombo
 {
-    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.ViperGenerationLegaciesFeature;
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VprAny;
 
     protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
     {
         if (actionID == VPR.HuntersCoil || actionID == VPR.SwiftskinsCoil)
         {
+            if (IsEnabled(CustomComboPreset.ViperGenerationLegaciesFeature))
+            {
                 if (actionID == VPR.HuntersCoil && OriginalHook(VPR.SerpentsTail) == VPR.ThirdLegacy)
                     return VPR.ThirdLegacy;
 
                 if (actionID == VPR.SwiftskinsCoil && OriginalHook(VPR.SerpentsTail) == VPR.FourthLegacy)
                     return VPR.FourthLegacy;
+            }
+
+            if (IsEnabled(CustomComboPreset.ViperCoilTwinsFeature) && level >= VPR.Levels.TwinsSingle)
+            {
+                // The coil turns both twins into their empowered versions, two uses in total.
+                // The venom administered by the coil (and then by each twin) tells which one comes next.
+                var fangReady = OriginalHook(VPR.Twinfang) == VPR.TwinfangBite;
+                var bloodReady = OriginalHook(VPR.Twinblood) == VPR.TwinbloodBite;
+
+                if (fangReady && bloodReady)
+                    return HasEffect(VPR.Buffs.SwiftskinsVenom) ? VPR.TwinbloodBite : VPR.TwinfangBite;
+
+                if (fangReady)
+                    return VPR.TwinfangBite;
+
+                if (bloodReady)
+                    return VPR.TwinbloodBite;
+            }
         }
 
         return actionID;
@@ -199,18 +218,66 @@ internal class ViperCoils : CustomCombo
 
 internal class ViperDens : CustomCombo
 {
-    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.ViperGenerationLegaciesFeature;
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VprAny;
 
     protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
     {
         if (actionID == VPR.HuntersDen || actionID == VPR.SwiftskinsDen)
         {
-            if (actionID == VPR.HuntersDen && OriginalHook(VPR.SerpentsTail) == VPR.ThirdLegacy)
-                return VPR.ThirdLegacy;
+            if (IsEnabled(CustomComboPreset.ViperGenerationLegaciesFeature))
+            {
+                if (actionID == VPR.HuntersDen && OriginalHook(VPR.SerpentsTail) == VPR.ThirdLegacy)
+                    return VPR.ThirdLegacy;
 
-            if (actionID == VPR.SwiftskinsDen && OriginalHook(VPR.SerpentsTail) == VPR.FourthLegacy)
-                return VPR.FourthLegacy;            
+                if (actionID == VPR.SwiftskinsDen && OriginalHook(VPR.SerpentsTail) == VPR.FourthLegacy)
+                    return VPR.FourthLegacy;
+            }
+
+            if (IsEnabled(CustomComboPreset.ViperDenTwinsFeature) && level >= VPR.Levels.TwinsAoE)
+            {
+                // Same two-use rule as the coils, with the AoE venom picking which twin comes first.
+                var fangReady = OriginalHook(VPR.Twinfang) == VPR.TwinfangThresh;
+                var bloodReady = OriginalHook(VPR.Twinblood) == VPR.TwinbloodThresh;
+
+                if (fangReady && bloodReady)
+                    return HasEffect(VPR.Buffs.FellskinsVenom) ? VPR.TwinbloodThresh : VPR.TwinfangThresh;
+
+                if (fangReady)
+                    return VPR.TwinfangThresh;
+
+                if (bloodReady)
+                    return VPR.TwinbloodThresh;
+            }
         }
+
+        return actionID;
+    }
+}
+
+internal class ViperUncoiledFury : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VprAny;
+
+    protected override ComboAction Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID != VPR.UncoiledFury)
+            return actionID;
+
+        if (!IsEnabled(CustomComboPreset.ViperUncoiledTwinsFeature) || level < VPR.Levels.UncoiledTwins)
+            return actionID;
+
+        // Uncoiled Fury always unlocks Twinfang first; Twinfang then unlocks Twinblood.
+        var fangReady = OriginalHook(VPR.Twinfang) == VPR.UncoiledTwinfang;
+        var bloodReady = OriginalHook(VPR.Twinblood) == VPR.UncoiledTwinblood;
+
+        if (fangReady && bloodReady)
+            return HasEffect(VPR.Buffs.PoisedForTwinblood) ? VPR.UncoiledTwinblood : VPR.UncoiledTwinfang;
+
+        if (fangReady)
+            return VPR.UncoiledTwinfang;
+
+        if (bloodReady)
+            return VPR.UncoiledTwinblood;
 
         return actionID;
     }

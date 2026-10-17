@@ -484,6 +484,21 @@ public enum CustomComboPreset
     [CustomComboInfo("Serpent's Fang Feature", "Replace Steel Fangs, Reaving Fangs, Steel Maw, and Reaving Maw with Serpent's Tail after finishing a combo.", VPR.JobID)]
     ViperSteelTailFeature = 4101,
 
+    [SectionCombo("Vicewinder")]
+    [IconsCombo([VPR.HuntersCoil, UTL.ArrowLeft, VPR.TwinfangBite, UTL.ArrowLeft, VPR.TwinbloodBite, UTL.Blank, VPR.SwiftskinsCoil, UTL.ArrowLeft, VPR.TwinbloodBite, UTL.ArrowLeft, VPR.TwinfangBite])]
+    [CustomComboInfo("Coil Twin Feature", "Replace Hunter's Coil and Swiftskin's Coil with their available Twinfang and Twinblood actions.", VPR.JobID)]
+    ViperCoilTwinsFeature = 4106,
+
+    [SectionCombo("Vicepit")]
+    [IconsCombo([VPR.HuntersDen, UTL.ArrowLeft, VPR.TwinfangThresh, UTL.ArrowLeft, VPR.TwinbloodThresh, UTL.Blank, VPR.SwiftskinsDen, UTL.ArrowLeft, VPR.TwinbloodThresh, UTL.ArrowLeft, VPR.TwinfangThresh])]
+    [CustomComboInfo("Den Twin Feature", "Replace Hunter's Den and Swiftskin's Den with their available Twinfang and Twinblood actions.", VPR.JobID)]
+    ViperDenTwinsFeature = 4107,
+
+    [SectionCombo("Uncoiled Fury")]
+    [IconsCombo([VPR.UncoiledFury, UTL.ArrowLeft, VPR.UncoiledTwinfang, UTL.ArrowLeft, VPR.UncoiledTwinblood])]
+    [CustomComboInfo("Uncoiled Fury Twin Feature", "Replace Uncoiled Fury with its Uncoiled Twinfang and Uncoiled Twinblood follow-ups.", VPR.JobID)]
+    ViperUncoiledTwinsFeature = 4108,
+
     [SectionCombo("Reawaken")]
     [IconsCombo([VPR.FirstGeneration, VPR.FirstLegacy, VPR.SecondGeneration, VPR.SecondLegacy, VPR.ThirdGeneration, VPR.ThirdLegacy, VPR.FourthGeneration, VPR.FourthLegacy, UTL.Blank])]
     [CustomComboInfo("Generation Legacy Feature", "Replace the Generation skills with their respective Legacies.", VPR.JobID)]
